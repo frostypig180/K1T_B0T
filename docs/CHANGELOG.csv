@@ -9,7 +9,7 @@ Date,File,Change,Author
 02-03-2026,README.md,Updated README with new delete and upload instructions,Caleb Schweigert
 02-09-2026,n/a, Installed 5 packages to get the SQL working: PostgreSQL SAQLAlchemy asyncpg alembic python-dotenv   Installed update to pip from 25.3 --> 26.0.1, Will Dani
 02-13-2026,n/a,added cloudflared tunnel configuration. updated bot prompt format for better AI understanding. added session ids to separate multiple user sessions,Eli Gruhlke
-02-14-2026,K1T_B0T.html,renamed to "index.html" so it is accessible from the root URL,Eli Gruhlke
+02-14-2026,K1T_B0T.html,renamed to 'index.html' so it is accessible from the root URL,Eli Gruhlke
 02-14-2026,n/a,changed cloudflare setting to always use https. adds functionality for mobile devices which default to http, Eli Gruhlke
 02-14-2026,main.py,added hidden message that is sent at the start of every session to trigger any session initialization on the backend, Eli Gruhlke
 02-15-2026,index.html admin/index.html main.py,removed admin login and respective admin features. added admin/index.html. added function to main.py to prompt for login at k1tb0t.com/admin,Eli Gruhlke
