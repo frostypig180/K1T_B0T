@@ -2,7 +2,7 @@ Date,File,Change,Author
 01-27-2026,K1T_B0T.html,Modified visual styles and updates LOGO.png to eerc.webp,Eli Gruhlke 
 01-27-2026,K1T_B0T.html,Added loadDeletePanel function to dynamically load delete panel content,Caleb Schweigert
 01-27-2026,K1T_B0T.html,Updated Summary to have a chat bubble and loadSummaryPanel function,Caleb Schweigert
-01-29-2026,main.py,Created helper function for instruction reading. Changed "messages" to "chat_history",Eli Gruhlke
+01-29-2026,main.py,Created helper function for instruction reading. Changed 'messages' to 'chat_history',Eli Gruhlke
 01-29-2026,n/a,Created github repo for backups,Eli Gruhlke
 02-03-2026,main.py,Added file delete endpoint and list endpoint,Caleb Schweigert
 02-03-2026,main.py,Fixed bug where initial instructions were not being loaded properly,Caleb Schweigert
