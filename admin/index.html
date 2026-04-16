@@ -1,6 +1,7 @@
 <!-------------------------------
 K1T B0T ADMIN HTML INTERFACE
 Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
+Summary Panel: Ian Walch
 -------------------------------->
 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   <style>
     :root {
       --black: #0f1115;
-      --gold: #f4c542;
+      --red: #ff5858;
       --white: #f8f8f8;
       --gray: #1b1f27;
       --gray-soft: #252b36;
@@ -28,11 +29,16 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       display: flex;
       flex-direction: column;
     }
+    html {
+      background: linear-gradient(180deg, #0d0f14 0%, #151922 100%);
+      background: #0d0f14;
+      overscroll-behavior: none;
+    }
     header {
       background-color: rgba(27, 31, 39, 0.95);
       text-align: center;
       position: sticky;
-      border-bottom: 1px solid rgba(244, 197, 66, 0.35);
+      border-bottom: 1px solid rgba(244, 66, 66, 0.35);
       font-size: 1.2rem;
       padding: 0.75rem 0 1rem;
       min-height: 82px;
@@ -42,12 +48,12 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       margin: 0.25rem 0 0;
       font-size: 1.9rem;
       letter-spacing: 0.04em;
-      color: var(--gold);
+      color: var(--red);
     }
     .header-subtitle {
       margin-top: 0.25rem;
       font-size: 0.95rem;
-      color: rgba(244, 197, 66, 0.75);
+      color: rgba(244, 66, 66, 0.75);
       font-style: italic;
       letter-spacing: 0.02em;
     }
@@ -59,8 +65,8 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       width: 80px;
       object-fit: cover;
       border-radius: 10px;
-      border: 1px solid rgba(244, 197, 66, 0.4);
-      box-shadow: 0 0 10px rgba(244, 197, 66, 0.2);
+      border: 1px solid rgba(244, 66, 66, 0.4);
+      box-shadow: 0 0 10px rgba(244, 66, 66, 0.2);
     }
     .kit-image {
       position: absolute;
@@ -70,20 +76,20 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       width: 80px;
       border-radius: 10px;
       object-fit: cover;
-      border: 1px solid rgba(244, 197, 66, 0.4);
-      box-shadow: 0 0 5px rgba(244, 197, 66, 0.2);
+      border: 1px solid rgba(244, 66, 66, 0.4);
+      box-shadow: 0 0 5px rgba(244, 66, 66, 0.2);
     }
     .mtu-LOGO:hover,
     .kit-image:hover {
-      box-shadow: 0 0 14px rgba(244, 197, 66, 0.35);
+      box-shadow: 0 0 14px rgba(244, 66, 66, 0.35);
     }
     footer {
       background-color: rgba(27, 31, 39, 0.92);
-      border-top: 1px solid rgba(244, 197, 66, 0.18);
+      border-top: 1px solid rgba(244, 66, 66, 0.18);
       text-align: center;
       padding: 0.7rem;
       font-size: 0.82rem;
-      color: rgba(244, 197, 66, 0.85);
+      color: rgba(244, 66, 66, 0.85);
     }
     .panel {
       flex: 1;
@@ -111,10 +117,9 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       font-weight: 700;
       transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     }
-
     .back-button {
       align-self: flex-start;
-      background: linear-gradient(135deg, #f4c542 0%, #e0b52c 100%);
+      background: linear-gradient(135deg, #f44242 0%, #e02c2c 100%);
       color: #111;
       border: none;
       padding: 0.5rem 0.9rem;
@@ -124,22 +129,19 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       font-weight: 700;
       cursor: pointer;
     }
-
     .back-button:hover,
     button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 0 10px rgba(244, 197, 66, 0.25);
+      box-shadow: 0 0 10px rgba(244, 66, 66, 0.25);
     }
-
     #chat-container {
       flex: 1;
       padding: 1rem;
       overflow-y: auto;
       background-color: var(--black);
     }
-
     .delete-button {
-      background: linear-gradient(135deg, #d64b1c 0%, #b7350c 100%);
+      background: linear-gradient(135deg, #d61c35 0%, #b70c45 100%);
       color: var(--white);
       border: none;
       padding: 0.75rem 1.15rem;
@@ -147,22 +149,18 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       margin-top: 1.25rem;
     }
     .delete-button:hover { background-color: #952500; }
-
     #delete-table label span {
       color: var(--white);
       transition: color 0.2s ease;
     }
-
     #delete-table label:hover span {
-      color: var(--gold);
+      color: var(--red);
     }
-
     #delete-table input[type="checkbox"] {
       transform: scale(1.15);
-      accent-color: var(--gold);
+      accent-color: var(--red);
       cursor: pointer;
     }
-
     .message {
       max-width: 70%;
       margin: 0.5rem 0;
@@ -170,15 +168,14 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       border-radius: 10px;
       line-height: 1.5;
       font-size: 1rem;
-      white-space: pre-wrap; /* nice for streamed text/newlines */
+      white-space: pre-wrap;
     }
-    .user { align-self: flex-end; background-color: var(--gold); color: var(--black); }
-    .bot { align-self: flex-start; background-color: var(--gray); color: var(--white); }
-
+    .user { align-self: flex-end; background-color: var(--red); color: var(--black); }
+    .bot  { align-self: flex-start; background-color: var(--gray); color: var(--white); }
     #input-area {
       display: flex;
       padding: 1rem;
-      border-top: 2px solid var(--gold);
+      border-top: 2px solid var(--red);
       background-color: var(--gray);
     }
     #user-input {
@@ -190,7 +187,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
     #send-button {
       margin-left: 1rem;
-      background-color: var(--gold);
+      background-color: var(--red);
       color: var(--black);
       border: none;
       padding: 0.75rem 1.25rem;
@@ -198,17 +195,15 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       font-weight: bold;
       cursor: pointer;
     }
-    #send-button:hover { background-color: #e6b800; }
-
+    #send-button:hover { background-color: #e60000; }
     .image-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 1.25rem;
     }
-
     .image-card {
       background-color: var(--gray-soft);
-      border: 1px solid rgba(244, 197, 66, 0.22);
+      border: 1px solid rgba(244, 66, 66, 0.22);
       border-radius: 18px;
       overflow: hidden;
       display: flex;
@@ -228,7 +223,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
     .modal-box {
       background: var(--gray);
-      border: 2px solid var(--gold);
+      border: 2px solid var(--red);
       padding: 2rem;
       border-radius: 10px;
       max-width: 400px;
@@ -240,81 +235,286 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       gap: 1rem;
       margin-top: 1rem;
     }
-    .modal.show { 
-      display: flex; 
-    }
+    .modal.show { display: flex; }
     .image-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 0 14px rgba(244, 197, 66, 0.22);
-      border-color: rgba(244, 197, 66, 0.4);
+      box-shadow: 0 0 14px rgba(244, 66, 66, 0.22);
+      border-color: rgba(244, 66, 66, 0.4);
     }
-
     .image-card img {
       width: 100%;
       height: 180px;
       object-fit: cover;
-      border-bottom: 1px solid rgba(244, 197, 66, 0.2);
+      border-bottom: 1px solid rgba(244, 66, 66, 0.2);
     }
-
     .image-card .info {
       padding: 0.9rem 1rem 1rem;
     }
-
     .image-card .info h3 {
       margin: 0;
-      color: var(--gold);
+      color: var(--red);
       font-size: 1.05rem;
     }
-
     table {
       width: 100%;
-      border-collapse: separate;   
-      border-spacing: 0;           
+      border-collapse: separate;
+      border-spacing: 0;
       background-color: var(--gray-soft);
-      border: 1px solid rgba(244, 197, 66, 0.22);
+      border: 1px solid rgba(244, 66, 66, 0.22);
       border-radius: 16px;
       overflow: hidden;
     }
-
     th, td {
-      border-bottom: 1px solid rgba(244, 197, 66, 0.12);
+      border-bottom: 1px solid rgba(244, 66, 66, 0.12);
       padding: 0.85rem 1rem;
       text-align: left;
     }
-
     th {
-      background-color: rgba(244, 197, 66, 0.08);
-      color: var(--gold);
+      background-color: rgba(244, 66, 66, 0.08);
+      color: var(--red);
     }
-
-    tr:nth-child(even) {
-      background-color: rgba(255, 255, 255, 0.02);
-    }
-
+    tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
     form {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       background-color: var(--gray-soft);
-      border: 1px solid rgba(244, 197, 66, 0.22);
+      border: 1px solid rgba(244, 66, 66, 0.22);
       border-radius: 18px;
       padding: 1.5rem;
     }
-
     input, textarea {
       padding: 0.9rem 1rem;
-      border: 1px solid rgba(244, 197, 66, 0.25);
+      border: 1px solid rgba(244, 66, 66, 0.25);
       border-radius: 14px;
       font-size: 1rem;
       background-color: #161a21;
-      color: var(--gold);
+      color: var(--red);
       outline: none;
     }
-    button{background-color:var(--gold);color:var(--black);border:none;padding:0.75rem 1.25rem;border-radius:5px;font-weight:bold;cursor:pointer;}
-    button:hover{background-color:#e6b800;}
+    button { background-color: var(--red); color: var(--black); border: none; padding: 0.75rem 1.25rem; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    button:hover { background-color: #e60000; }
+
+    /* ---- Summary panel styles ---- */
+    .summary-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: var(--gray-soft);
+      border: 1px solid rgba(244, 66, 66, 0.22);
+      border-radius: 18px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .summary-controls label {
+      color: var(--red);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .summary-controls select {
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(244, 66, 66, 0.25);
+      border-radius: 14px;
+      font-size: 1rem;
+      background-color: #161a21;
+      color: var(--red);
+      outline: none;
+      cursor: pointer;
+    }
+    .summary-controls select option {
+      background-color: #161a21;
+      color: var(--red);
+    }
+    .summary-button-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .summary-button-row button {
+      padding: 0.75rem 1.25rem;
+      border-radius: 14px;
+    }
+    .summary-card {
+      background-color: var(--gray-soft);
+      border: 1px solid rgba(244, 66, 66, 0.22);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    }
+    .summary-card h3 {
+      color: var(--red);
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+    }
+    .summary-card .meta {
+      color: rgba(244, 66, 66, 0.7);
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .summary-card .field-label {
+      color: var(--red);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 0.6rem;
+    }
+    .summary-card .field-value {
+      color: var(--white);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-top: 0.25rem;
+    }
+    .summary-status {
+      color: var(--red);
+      font-style: italic;
+      padding: 1rem 0;
+    }
+    .summary-error {
+      color: #d61c63;
+      padding: 0.5rem 0;
+    }
+    .session-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(244, 66, 66, 0.12);
+    }
+    .session-list-item:last-child { border-bottom: none; }
+    .session-list-item span {
+      color: var(--white);
+      font-size: 0.95rem;
+    }
+    .session-list-item button {
+      padding: 0.5rem 0.9rem;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 700px) {
+    header {
+      padding: 0.85rem 1rem 1rem;
+      min-height: 120px;
+    }
+
+    header h1 {
+      font-size: 1.45rem;
+      line-height: 1.25;
+      padding: 0 72px;
+      margin-top: 0.2rem;
+    }
+
+    .header-subtitle {
+      font-size: 0.85rem;
+      line-height: 1.35;
+      padding: 0 72px;
+      margin-top: 0.35rem;
+    }
+
+    .mtu-LOGO,
+    .kit-image {
+      top: 12px;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+    }
+
+    .mtu-LOGO {
+      left: 10px;
+    }
+
+    .kit-image {
+      right: 10px;
+    }
+
+    .admin-main {
+      padding: 0.85rem 0.9rem 1rem;
+    }
+
+    .back-button {
+      padding: 0.45rem 0.8rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .image-gallery {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .image-card img {
+      height: 160px;
+    }
+
+    .summary-button-row {
+      flex-direction: column;
+    }
+
+    .summary-button-row button {
+      width: 100%;
+    }
+
+    table th,
+    table td {
+      padding: 0.75rem 0.8rem;
+      font-size: 0.92rem;
+    }
+
+    .session-list-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.7rem;
+    }
+
+    .session-list-item button {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 0.9rem 0.75rem 1rem;
+      min-height: 90px;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      padding: 0 58px;
+    }
+
+    .header-subtitle {
+      font-size: 0.78rem;
+      padding: 0 58px;
+    }
+
+    .mtu-LOGO,
+    .kit-image {
+      top: 14px;
+      width: 44px;
+      height: 44px;
+    }
+
+    .admin-main {
+      padding: 0.75rem 0.7rem 0.9rem;
+    }
+
+    form,
+    .summary-controls,
+    .summary-card {
+      padding: 1rem;
+    }
+
+    .image-card .info h3 {
+      font-size: 1rem;
+    }
+
+    .delete-button,
+    button {
+      width: 100%;
+    }
+  }
   </style>
 </head>
 <body>
+
   <!-- Admin Dashboard -->
   <div id="admin-panel" class="panel active">
     <header>
@@ -326,7 +526,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     <main class="admin-main">
       <div class="image-gallery">
         <div class="image-card" onclick="showPanel('upload')">
-          <img src="images/cloud.jpg">
+          <img src="images/upload.jpg">
           <div class="info"><h3>Upload New Resource</h3></div>
         </div>
         <div class="image-card" onclick="showPanel('delete')">
@@ -337,12 +537,20 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
           <img src="images/summary.jpg">
           <div class="info"><h3>Generate Summary</h3></div>
         </div>
+        <div class="image-card" onclick="showPanel('class-config')">
+          <img src="images/config.jpg">
+          <div class="info"><h3>Class Configuration</h3></div>
+        </div>
+        <div class="image-card" onclick="clearDatabase()">
+          <img src="images/clear.jpg">
+          <div class="info"><h3>Clear Database</h3></div>
+        </div>
       </div>
     </main>
     <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
   </div>
 
-  <!--Delete Resource Panel-->
+  <!-- Delete Resource Panel -->
   <div id="delete" class="panel">
     <header>
       <img src="images/eerc.webp" class="mtu-LOGO">
@@ -355,26 +563,76 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
         <tr><th>Resource</th></tr>
       </table>
       <button class="delete-button" onclick="deleteSelectedResources()">Delete Selected Resource</button>
-      <div id="delete-result" style="margin-top:0.75rem;color:var(--gold);"></div>
+      <div id="delete-result" style="margin-top:0.75rem;color:var(--red);"></div>
     </main>
     <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
   </div>
 
-  <!--Summary Panel-->
+  <!-- Summary Panel -->
   <div id="summary" class="panel">
     <header>
       <img src="images/eerc.webp" class="mtu-LOGO">
       <img src="images/newKit.jpeg" class="kit-image">
-      <h1>Summary</h1>
+      <h1>Generate Summary</h1>
     </header>
     <main class="admin-main">
       <button class="back-button" onclick="showPanel('admin-panel')">← Back</button>
-      <div id="summary-chat" style="display:flex;flex-direction:column;"></div>
+
+      <div class="summary-controls">
+        <label for="class-select">Select Class:</label>
+        <select id="class-select">
+          <option value="">Loading classes...</option>
+        </select>
+        <div id="class-info" style="color: rgba(255, 83, 83, 0.7); font-size: 0.9rem;"></div>
+        <div class="summary-button-row">
+          <button onclick="summarizeAllSessions()">Summarize All Sessions</button>
+          <button onclick="loadActiveSessions()" style="background: linear-gradient(135deg, #252b36 0%, #1b1f27 100%); color: var(--red); border: 1px solid rgba(244,197,66,0.35);">View Active Sessions</button>
+        </div>
+      </div>
+
+      <!-- Active Sessions List -->
+      <div id="sessions-list" style="display:none; margin-bottom: 1.25rem;">
+        <h3 style="color: var(--red); margin-bottom: 0.5rem;">Active Sessions:</h3>
+        <div id="sessions-container" style="background-color: var(--gray-soft); border: 1px solid rgba(244, 66, 66, 0.22); border-radius: 18px; overflow: hidden;"></div>
+      </div>
+
+      <!-- Summary Results -->
+      <div id="summary-results"></div>
     </main>
     <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
   </div>
 
-  <!-- Upload Resource -->
+  <!-- Class Configuration Panel -->
+  <div id="class-config" class="panel">
+    <header>
+      <img src="images/eerc.webp" class="mtu-LOGO">
+      <img src="images/newKit.jpeg" class="kit-image">
+      <h1>Class Configuration</h1>
+    </header>
+    <main class="admin-main">
+      <button class="back-button" onclick="showPanel('admin-panel')">← Back</button>
+
+      <div class="summary-controls">
+        <label>Upload Class Config (.json)</label>
+        <p style="color: rgba(255, 108, 108, 0.6); font-size: 0.85rem; margin: 0;">
+          Upload a .json file to add a new class or update an existing one. Required fields: class_id and class_name.
+        </p>
+        <input type="file" id="config-file-input" accept=".json" style="cursor: pointer;">
+        <div class="summary-button-row">
+          <button onclick="uploadClassConfig()">Upload Config</button>
+        </div>
+        <div id="config-upload-result" style="color: var(--red); font-size: 0.9rem;"></div>
+      </div>
+
+      <h3 style="color: var(--red); margin: 0.5rem 0;">Current Class Configurations:</h3>
+      <div id="config-list" style="background-color: var(--gray-soft); border: 1px solid rgba(244, 66, 66, 0.22); border-radius: 18px; overflow: hidden;">
+        <div style="padding: 1rem; color: rgba(255, 92, 92, 0.7);">Loading...</div>
+      </div>
+    </main>
+    <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
+  </div>
+
+  <!-- Upload Resource Panel -->
   <div id="upload" class="panel">
     <header>
       <img src="images/eerc.webp" class="mtu-LOGO">
@@ -383,18 +641,17 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     </header>
     <main class="admin-main">
       <button class="back-button" onclick="showPanel('admin-panel')">← Back</button>
-
-      <!-- IMPORTANT: use /api/... so it works behind Nginx + Cloudflare Tunnel -->
       <form id="upload-form" action="https://api.k1tb0t.com/upload" method="post" enctype="multipart/form-data">
         <input id="file-input" type="file" name="file" accept=".txt" required>
         <div style="margin-top:0.5rem"><button type="submit">Upload Resource</button></div>
       </form>
-
-      <div id="upload-result" style="margin-top:0.75rem;color:var(--gold);"></div>
+      <div id="upload-result" style="margin-top:0.75rem;color:var(--red);"></div>
     </main>
     <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
   </div>
-    <div id="confirm-modal" class="modal">
+
+  <!-- Confirm Modal -->
+  <div id="confirm-modal" class="modal">
     <div class="modal-box">
       <p id="confirm-text"></p>
       <div class="modal-buttons">
@@ -405,42 +662,294 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   </div>
 
   <script>
- 
+  const API_BASE = "https://api.k1tb0t.com";
+
   // -------------------------------
-  // Append Chat Messages to UI
+  // Panel Switching
   // -------------------------------
-  function appendMessage(container, sender, text) {
-    const msg = document.createElement("div");
-    msg.classList.add("message", sender);
-    msg.textContent = text;
-    container.appendChild(msg);
-    container.scrollTop = container.scrollHeight;
+  function showPanel(id) {
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    if (id === "delete")       loadDeletePanel();
+    if (id === "summary")      loadSummaryPanel();
+    if (id === "class-config") loadClassConfigs();
   }
 
-  //-------------------------------
-  // Load Summary Panel Chat
-  //-------------------------------
+  // -------------------------------
+  // Custom Confirm Modal
+  // -------------------------------
+  function customConfirm(message) {
+    return new Promise(resolve => {
+      const modal = document.getElementById("confirm-modal");
+      const text  = document.getElementById("confirm-text");
+      const yes   = document.getElementById("confirm-yes");
+      const no    = document.getElementById("confirm-no");
+      text.textContent = message;
+      modal.classList.add("show");
+      yes.onclick = () => { modal.classList.remove("show"); resolve(true); };
+      no.onclick  = () => { modal.classList.remove("show"); resolve(false); };
+    });
+  }
+
+  // -------------------------------
+  // Summary Panel
+  // -------------------------------
   async function loadSummaryPanel() {
-    const container = document.getElementById("summary-chat");
-    container.innerHTML = "";
+    document.getElementById("summary-results").innerHTML = "";
+    document.getElementById("sessions-list").style.display = "none";
 
-    const bubble = document.createElement("div");
-    bubble.classList.add("message", "bot");
-    bubble.textContent = "Generating summary, please wait...";
-    container.appendChild(bubble);
+    const select = document.getElementById("class-select");
+    select.innerHTML = '<option value="">Loading classes...</option>';
+
+    try {
+      const resp = await fetch(`${API_BASE}/classes`);
+      if (!resp.ok) throw new Error("Failed to load classes");
+      const classes = await resp.json();
+
+      select.innerHTML = "";
+      if (classes.length === 0) {
+        select.innerHTML = '<option value="">No classes configured</option>';
+        return;
+      }
+
+      classes.forEach(cls => {
+        const opt = document.createElement("option");
+        opt.value = cls.class_id;
+        opt.textContent = cls.class_name;
+        select.appendChild(opt);
+      });
+
+      updateClassInfo();
+    } catch (err) {
+      select.innerHTML = '<option value="">Error loading classes</option>';
+    }
+  }
+
+  function updateClassInfo() {
+    const select   = document.getElementById("class-select");
+    const info     = document.getElementById("class-info");
+    const selected = select.options[select.selectedIndex];
+  }
+
+  document.getElementById("class-select").addEventListener("change", updateClassInfo);
+
+  function getSelectedClassId() {
+    return document.getElementById("class-select").value;
+  }
+
+  async function summarizeAllSessions() {
+  const classId = getSelectedClassId();
+  if (!classId) {
+    alert("Please select a class first.");
+    return;
+  }
+
+  const results = document.getElementById("summary-results");
+  results.innerHTML = '<div class="summary-status">Generating one summary for the entire class...</div>';
+
+  try {
+    const resp = await fetch(`${API_BASE}/summary`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ class_id: classId })
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      results.innerHTML = '<div class="summary-error">Error: ' + (err.detail || "Failed to generate class summary") + '</div>';
+      return;
+    }
+
+    const summary = await resp.json();
+    results.innerHTML = "";
+    appendClassSummaryCard(results, summary);
+
+  } catch (err) {
+    results.innerHTML = '<div class="summary-error">Error: ' + err.message + '</div>';
+  }
+}
+function appendClassSummaryCard(container, summary) {
+  const card = document.createElement("div");
+  card.className = "summary-card";
+  card.innerHTML =
+    '<h3>' + (summary.class_name || "Class Summary") + '</h3>' +
+    '<div class="meta">' +
+      (summary.session_count || 0) + ' sessions — ' +
+      (summary.message_count || 0) + ' messages' +
+    '</div>' +
+    '<div class="field-label">Overall Class Summary</div>' +
+    '<div class="field-value">' + (summary.conversation_summary || "N/A") + '</div>' +
+    '<div class="field-label">Common Strengths</div>' +
+    '<div class="field-value">' + (summary.topics_strong || "N/A") + '</div>' +
+    '<div class="field-label">Common Areas Needing Help</div>' +
+    '<div class="field-value">' + (summary.topics_need_help || "N/A") + '</div>';
+  container.appendChild(card);
+}
+  async function loadActiveSessions() {
+    const container = document.getElementById("sessions-container");
+    const wrapper   = document.getElementById("sessions-list");
+    wrapper.style.display = "block";
+    container.innerHTML = '<div style="padding: 1rem; color: rgba(244,66,66,0.7);">Loading active sessions…</div>';
+
+    try {
+      const resp = await fetch(`${API_BASE}/active-sessions/${getSelectedClassId()}`);
+      if (!resp.ok) throw new Error("Failed to load sessions");
+      const sessions = await resp.json();
+
+      if (sessions.length === 0) {
+        container.innerHTML = '<div style="padding: 1rem; color: rgba(244,66,66,0.7);">No active chat sessions found.</div>';
+        return;
+      }
+
+      container.innerHTML = "";
+      sessions.forEach(session => {
+        const item = document.createElement("div");
+        item.className = "session-list-item";
+        item.innerHTML =
+          '<span>Session ' + session.session_id.substring(0, 8) +
+          '… — ' + session.message_count + ' messages</span>' +
+          '<button onclick="viewSession(\'' + session.session_id + '\')">View</button>';
+        container.appendChild(item);
+      });
+    } catch (err) {
+      container.innerHTML = '<div style="padding: 1rem; color: #d64b1c;">Error loading sessions: ' + err.message + '</div>';
+    }
+  }
+
+  async function viewSession(sessionId) {
+    const classId = getSelectedClassId();
+    if (!classId) {
+      alert("Please select a class first.");
+      return;
+    }
+
+      const results = document.getElementById("summary-results");
+      results.innerHTML = '<div class="summary-status">Loading session...</div>';
+
+      try {
+        const resp = await fetch(`${API_BASE}/session/${sessionId}`);
+        if (!resp.ok) throw new Error("Failed to load session");
+
+        const data = await resp.json();
+
+        results.innerHTML = "";
+
+        const container = document.createElement("div");
+        container.className = "summary-card";
+
+        container.innerHTML = `
+          <h3>Session ${sessionId.substring(0,8)}</h3>
+          <div class="meta">${data.messages.length} messages</div>
+        `;
+
+        const chatBox = document.createElement("div");
+        chatBox.style.display = "flex";
+        chatBox.style.flexDirection = "column";
+        chatBox.style.marginTop = "1rem";
+
+        data.messages.forEach(msg => {
+          const div = document.createElement("div");
+          div.className = "message " + (msg.sender === "user" ? "user" : "bot");
+          div.textContent = msg.content;
+          chatBox.appendChild(div);
+        });
+
+        container.appendChild(chatBox);
+        results.appendChild(container);
+
+      } catch (err) {
+        results.innerHTML = '<div class="summary-error">Error: ' + err.message + '</div>';
+      }
+  }
+
+  function appendSummaryCard(container, summary) {
+    const card = document.createElement("div");
+    card.className = "summary-card";
+    card.innerHTML =
+      '<h3>Session ' + summary.session_id.substring(0, 8) + '</h3>' +
+      '<div class="meta">' +
+        (summary.class_name || "") +
+        " — " + (summary.message_count || 0) + " messages" +
+      '</div>' +
+      '<div class="field-label">Conversation Summary</div>' +
+      '<div class="field-value">' + (summary.conversation_summary || "N/A") + '</div>' +
+      '<div class="field-label">Strong Understanding</div>' +
+      '<div class="field-value">' + (summary.topics_strong || "N/A") + '</div>' +
+      '<div class="field-label">Needs Help With</div>' +
+      '<div class="field-value">' + (summary.topics_need_help || "N/A") + '</div>';
+    container.appendChild(card);
   }
 
   // -------------------------------
-  // Load Resources into Delete Panel
+  // Class Config Panel
+  // -------------------------------
+  async function loadClassConfigs() {
+    const list = document.getElementById("config-list");
+    list.innerHTML = '<div style="padding: 1rem; color: rgba(244,66,66,0.7);">Loading…</div>';
+
+    try {
+      const resp = await fetch(`${API_BASE}/classes`);
+      if (!resp.ok) throw new Error("Failed to load class configs");
+      const classes = await resp.json();
+
+      if (classes.length === 0) {
+        list.innerHTML = '<div style="padding: 1rem; color: rgba(244,66,66,0.7);">No class configs found.</div>';
+        return;
+      }
+
+      list.innerHTML = "";
+      classes.forEach(cls => {
+        const item = document.createElement("div");
+        item.className = "session-list-item";
+        item.innerHTML =
+          '<span><strong>' + cls.class_name + '</strong> <span style="color:rgba(244,66,66,0.5); font-size:0.8rem;">' + cls.class_id + '</span></span>';
+        list.appendChild(item);
+      });
+    } catch (err) {
+      list.innerHTML = '<div style="padding: 1rem; color: #d61c35;">Error: ' + err.message + '</div>';
+    }
+  }
+
+  async function uploadClassConfig() {
+    const fileInput = document.getElementById("config-file-input");
+    const result    = document.getElementById("config-upload-result");
+
+    if (!fileInput.files.length) {
+      result.textContent = "Please select a .json file first.";
+      return;
+    }
+
+    result.textContent = "Uploading…";
+    const fd = new FormData();
+    fd.append("file", fileInput.files[0]);
+
+    try {
+      const resp = await fetch(`${API_BASE}/upload-config`, { method: "POST", body: fd });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        result.textContent = "Upload failed: " + (err.detail || resp.statusText);
+        return;
+      }
+      const data = await resp.json();
+      result.textContent = "Uploaded: " + data.class_name + " (" + data.class_id + ")";
+      fileInput.value = "";
+      loadClassConfigs();
+    } catch (err) {
+      result.textContent = "Error: " + err.message;
+    }
+  }
+
+  // -------------------------------
+  // Delete Panel
   // -------------------------------
   async function loadDeletePanel() {
     const table = document.getElementById("delete-table");
     table.innerHTML = "<tr><th>Resource</th></tr>";
 
     try {
-      const resp = await fetch("https://api.k1tb0t.com/list");
+      const resp = await fetch(`${API_BASE}/list`);
       if (!resp.ok) throw new Error("Failed to fetch resource list");
-
       const files = await resp.json();
 
       if (files.length === 0) {
@@ -452,14 +961,13 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
 
       files.forEach(file => {
         const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>
-              <label style="display:flex; align-items:center; gap:0.65rem; cursor:pointer; width:100%;">
-                <input type="checkbox" name="delete-resource" value="${file}">
-                <span>${file}</span>
-              </label>
-            </td>
-          `;
+        row.innerHTML = `
+          <td>
+            <label style="display:flex; align-items:center; gap:0.65rem; cursor:pointer; width:100%;">
+              <input type="checkbox" name="delete-resource" value="${file}">
+              <span>${file}</span>
+            </label>
+          </td>`;
         table.appendChild(row);
       });
     } catch (err) {
@@ -469,44 +977,23 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
   }
 
-  // -------------------------------
-  // Custom Confirmation Modal (returns Promise)
-  // -------------------------------
-  function customConfirm(message) {
-    return new Promise(resolve => {
-      const modal = document.getElementById("confirm-modal");
-      const text = document.getElementById("confirm-text");
-      const yes = document.getElementById("confirm-yes");
-      const no = document.getElementById("confirm-no");
-
-      text.textContent = message;
-      modal.classList.add("show");
-
-      yes.onclick = () => { modal.classList.remove("show"); resolve(true); };
-      no.onclick = () => { modal.classList.remove("show"); resolve(false); };
-    });
-  }
-
-
-  //-------------------------------
-  // Delete Selected Resources
-  //-------------------------------
   async function deleteSelectedResources() {
-    const checkboxes = document.querySelectorAll('input[name="delete-resource"]:checked');
+    const checkboxes        = document.querySelectorAll('input[name="delete-resource"]:checked');
     const resourcesToDelete = Array.from(checkboxes).map(cb => cb.value);
-    const deletedResource = document.getElementById('delete-result');
+    const deletedResource   = document.getElementById("delete-result");
 
     if (resourcesToDelete.length === 0) {
       alert("No resources selected for deletion.");
       return;
     }
 
-    const confirm = await customConfirm(`Are you sure you want to delete the following resources?\n\n${resourcesToDelete.join("\n")}`);
-    if (!confirm) return;
+    const confirmed = await customConfirm(
+      "Are you sure you want to delete the following resources?\n\n" + resourcesToDelete.join("\n")
+    );
+    if (!confirmed) return;
 
     try {
-      // IMPORTANT: api.k1tb0t.com so it works behind Cloudflare Tunnel
-      const resp = await fetch("https://api.k1tb0t.com/delete", {
+      const resp = await fetch(`${API_BASE}/delete`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resources: resourcesToDelete }),
@@ -515,13 +1002,12 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       const data = await resp.json().catch(() => ({}));
 
       if (!resp.ok) {
-        deletedResource.innerHTML = `Delete failed: ${data.detail || data.errors?.[0] || resp.statusText}`;
+        deletedResource.innerHTML = "Delete failed: " + (data.detail || data.errors?.[0] || resp.statusText);
         return;
       }
       if (data.errors && data.errors.length) {
-        deletedResource.innerHTML += "\n\nErrors:\n" + data.errors.join("\n");
-      }
-      else {
+        deletedResource.innerHTML = "Errors:\n" + data.errors.join("\n");
+      } else {
         deletedResource.innerHTML = "Successfully deleted: " + data.deleted.join(", ");
       }
       loadDeletePanel();
@@ -531,49 +1017,59 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   }
 
   // -------------------------------
-  // Panel Switching System
+  // Clear Database
   // -------------------------------
-  function showPanel(id) {
-    document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+  async function clearDatabase() {
+    const confirmed = await customConfirm(
+      "Are you sure you want to clear the entire database? This will permanently delete all conversations, messages, and summaries and cannot be undone."
+    );
+    if (!confirmed) return;
 
-    if (id === "delete") {
-      loadDeletePanel();
-    }
-    if (id === "summary") {
-      loadSummaryPanel();
+    try {
+      const resp = await fetch(`${API_BASE}/conversations`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Basic " + btoa("admin:wce2026"),
+        },
+      });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        alert("Failed to clear database: " + (err.detail || resp.statusText));
+        return;
+      }
+      alert("Database cleared successfully.");
+    } catch (err) {
+      alert("Error clearing database: " + err.message);
     }
   }
 
   // -------------------------------
-  // Upload form handling (AJAX)
+  // Upload Form
   // -------------------------------
-  const uploadForm = document.getElementById('upload-form');
-  const uploadResult = document.getElementById('upload-result');
+  const uploadForm   = document.getElementById("upload-form");
+  const uploadResult = document.getElementById("upload-result");
   if (uploadForm) {
-    uploadForm.addEventListener('submit', async (e) => {
+    uploadForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      uploadResult.textContent = 'Uploading...';
+      uploadResult.textContent = "Uploading…";
       const fd = new FormData(uploadForm);
       try {
-        const resp = await fetch(uploadForm.action, { method: 'POST', body: fd });
+        const resp = await fetch(uploadForm.action, { method: "POST", body: fd });
         if (!resp.ok) {
           const err = await resp.text();
-          uploadResult.textContent = 'Upload failed: ' + err;
+          uploadResult.textContent = "Upload failed: " + err;
           return;
         }
         const data = await resp.json();
-        uploadResult.innerHTML = `Uploaded: ${data.filename}`;
+        uploadResult.innerHTML = "Uploaded: " + data.filename;
         uploadForm.reset();
-        setTimeout(() => {
-          showPanel('upload');
-        }, 800);
+        setTimeout(() => showPanel("upload"), 800);
       } catch (err) {
-        uploadResult.textContent = 'Upload error: ' + err.message;
+        uploadResult.textContent = "Upload error: " + err.message;
       }
     });
   }
-</script>
+  </script>
 
 </body>
 </html>

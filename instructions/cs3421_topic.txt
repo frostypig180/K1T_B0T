@@ -1,0 +1,1 @@
+A RISC-V 5-stage pipeline increases processor throughput by overlapping instruction execution into5 stages: Instruction Fetch (IF), Decode (ID), Execute (EX), Memory Access (MEM), and Write-back (WB). It utilizes pipelined registers between stages to manage data flow, with hazard detection handling data dependencies through stalling and forwarding to ensure correct execution. 

@@ -20,3 +20,20 @@ Date,File,Change,Author
 03-26-2026,index.html, added functionality to tts button and added stt, Caleb Schweigert
 03-26-2026, index.html admin/index.html, worked on spicing up the UI to make it more visually appealing, Caleb Schweigert
 03-27-2026,main.py, changed the system prompt to only include the bot rules and changed the user prompt to include the lesson notes, Eli Gruhlke
+04-01-2026,.gitignore, created a .gitignore file so that sensitive files do not get uploaded to github when this project is pushed to it, Will Dani
+04-01-2026, .env, changed the SQL DB password as it got leaked to github, Will Dani
+04-01-2026, .env.example, created an example env file for github, Will Dani
+04-01-2026, database.py, created a python file for making the connection to the SQL database, Will Dani
+04-01-2026, test_db_flow.py, created a test file to see if the SQL DB will get information stored in it, Will Dani
+04-01-2026, main.py, adding the ability for the conversations to be put into the SQL DB, Will Dani
+04-03-2026, index.html, fixed class selection menu, Eli Gruhlke
+04-03-2026, admin/index.html, fixed class config menu and modified summary generation methods screen, Eli Gruhlke
+04-03-2026, class_configs/, removed week number and title from .json files, Eli Gruhlke
+04-03-2026, main.py, modified summary generation logic to pull from database, Eli Gruhlke
+04-06-2026, database.py, included a means to track what class is being talked about, Will Dani
+04-06-2026, main.py, included a means to track what class is being talked about, Will Dani
+04-06-2026, index.html, editted sendToBot function to also send the class_id, Will Dani
+04-09-2026, index.html admin/index.html, Tweaked the HTML for Mobile so the site looks better for all pages, Caleb Schweigert
+04-15-2026, main.py admin/index.html, adjusted the logic for how conversations are pulled from the database to be separated by class, Eli Gruhlke
+04-15-2026, main.py, added a function to load instructions from the instruction files based on the class that is being talked about, Eli Gruhlke
+04-16-2026, README.md, combined readme files, Eli Gruhlke

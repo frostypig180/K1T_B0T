@@ -12,7 +12,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   <style>
     :root {
       --black: #0f1115;
-      --gold: #f4c542;
+      --red: #ff5858;
       --white: #f8f8f8;
       --gray: #1b1f27;
       --gray-soft: #252b36;
@@ -28,26 +28,32 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       display: flex;
       flex-direction: column;
     }
+    html {
+      background: linear-gradient(180deg, #0d0f14 0%, #151922 100%);
+      background: #0d0f14;
+      overscroll-behavior: none;
+    }
     header::after {
       content: "";
       display: block;
       height: 1px;
       width: 60%;
       margin: 0.5rem auto 0;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
     }
     header {
       background-color: rgba(27, 31, 39, 0.95);
       text-align: center;
-      position: sticky;
-      color: #f4e7b0;
-      border-bottom: 1px solid rgba(244, 197, 66, 0.35);
+      position: relative;
+      color: #f4b0b0;
+      border-bottom: 1px solid rgba(244, 66, 66, 0.35);
       font-size: 1.2rem;
       padding: 0.35rem 0 0.8rem;
+      min-height: 100px;
       box-shadow: 0 4px 12px var(--panel-shadow);
     }
     header h1 {
-      color: var(--gold);
+      color: var(--red);
       margin: 0.25rem 0 0;
       font-size: 1.9rem;
       letter-spacing: 0.04em;
@@ -55,9 +61,9 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     .header-subtitle {
       margin-top: 0.25rem;
       font-size: 0.95rem;
-      color: rgba(244, 197, 66, 0.75);
-      font-style: italic;             
-      letter-spacing: 0.02em;
+      color: rgba(244, 66, 66, 0.75);
+      font-style: italic;
+      letter-spacing: 0.02rem;
     }
     .mtu-LOGO {
       position: absolute;
@@ -67,8 +73,8 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       width: 80px;
       object-fit: cover;
       border-radius: 10px;
-      border: 1px solid rgba(244, 197, 66, 0.4);
-      box-shadow: 0 0 10px rgba(244, 197, 66, 0.2);
+      border: 1px solid rgba(244, 66, 66, 0.4);
+      box-shadow: 0 0 10px rgba(244, 66, 66, 0.2);
     }
     .kit-image {
       position: absolute;
@@ -78,20 +84,20 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       width: 80px;
       border-radius: 10px;
       object-fit: cover;
-      border: 1px solid rgba(244, 197, 66, 0.4);
-      box-shadow: 0 0 5px rgba(244, 197, 66, 0.2);
+      border: 1px solid rgba(244, 66, 66, 0.4);
+      box-shadow: 0 0 5px rgba(244, 66, 66, 0.2);
     }
     .mtu-LOGO:hover,
     .kit-image:hover {
-      box-shadow: 0 0 14px rgba(244, 197, 66, 0.35);
+      box-shadow: 0 0 14px rgba(244, 66, 66, 0.35);
     }
     footer {
       background-color: rgba(27, 31, 39, 0.92);
-      border-top: 1px solid rgba(244, 197, 66, 0.18);
+      border-top: 1px solid rgba(244, 66, 66, 0.18);
       text-align: center;
       padding: 0.7rem;
       font-size: 0.82rem;
-      color: rgba(244, 197, 66, 0.85);
+      color: rgba(244, 66, 66, 0.85);
     }
     .panel {
       flex: 1;
@@ -101,10 +107,177 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       height: 100%;
       background-color: transparent;
       box-sizing: border-box;
+      overflow: hidden;
     }
     .active {
       display: flex;
     }
+
+    /* --------------------------------
+       CLASS SELECTION SCREEN
+    -------------------------------- */
+    #class-select-panel {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    #class-select-panel.active {
+      display: flex;
+    }
+    #class-select-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .welcome-card {
+      background: linear-gradient(160deg, #1b1f27 0%, #1e2330 100%);
+      border: 1px solid rgba(244, 66, 66, 0.25);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      animation: fadeSlideIn 0.4s ease both;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .welcome-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--red);
+      text-align: center;
+      margin: 0;
+      letter-spacing: 0.03em;
+    }
+
+    .welcome-sub {
+      font-size: 0.95rem;
+      color: rgba(248, 248, 248, 0.65);
+      text-align: center;
+      margin: -0.75rem 0 0;
+      line-height: 1.5;
+    }
+
+    .class-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .class-option {
+      width: 100%;
+      background-color: #161a21;
+      border: 1px solid rgba(244, 66, 66, 0.25);
+      border-radius: 12px;
+      padding: 0.9rem 1.1rem;
+      color: var(--white);
+      font-size: 0.97rem;
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-sizing: border-box;
+    }
+
+    .class-option:hover {
+      background-color: rgba(244, 66, 66, 0.08);
+      border-color: var(--red);
+      transform: translateX(3px);
+    }
+
+    .class-option.selected {
+      background-color: rgba(244, 66, 66, 0.15);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .class-option-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .class-option-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .class-option-name {
+      font-weight: 600;
+    }
+
+    .class-option-desc {
+      font-size: 0.8rem;
+      color: rgba(248, 248, 248, 0.5);
+    }
+
+    .class-option.selected .class-option-desc {
+      color: rgba(244, 66, 66, 0.7);
+    }
+
+    .class-loading {
+      color: rgba(244, 66, 66, 0.6);
+      font-size: 0.9rem;
+      font-style: italic;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+
+    .class-error {
+      color: #e06cc9;
+      font-size: 0.88rem;
+      text-align: center;
+      padding: 0.4rem 0;
+    }
+
+    #start-button {
+      width: 100%;
+      background: linear-gradient(135deg, #f44242 0%, #e02c2c 100%);
+      color: #111;
+      border: none;
+      padding: 1rem;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+
+    #start-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    #start-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* --------------------------------
+       CHAT PANEL
+    -------------------------------- */
     #chat-container {
       flex: 1;
       padding: 0.75rem 1rem 1.25rem;
@@ -127,15 +300,15 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
     .user {
       align-self: flex-end;
-      background: linear-gradient(135deg, #f4c542 0%, #e0b52c 100%);
+      background: linear-gradient(135deg, #ff5959 0%, #e37474 100%);
       color: #111;
       border-bottom-right-radius: 6px;
     }
     .bot {
       align-self: flex-start;
-      background-color: var(--gray-soft);
+      background: linear-gradient(135deg, #393434 0%, #433232 100%);
       color: var(--white);
-      border: 1px solid rgba(244, 197, 66, 0.12);
+      border: 1px solid rgba(244, 66, 66, 0.12);
       border-bottom-left-radius: 6px;
     }
     #input-area {
@@ -143,29 +316,41 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       align-items: center;
       gap: 0.65rem;
       padding: 1rem;
-      border-top: 1px solid rgba(244, 197, 66, 0.25);
+      border-top: 1px solid rgba(244, 66, 66, 0.25);
       background-color: rgba(27, 31, 39, 0.96);
       box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    }
+    /* Class badge shown in chat header */
+    .class-badge {
+      display: inline-block;
+      background: rgba(244, 66, 66, 0.12);
+      border: 1px solid rgba(244, 66, 66, 0.35);
+      color: var(--red);
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 600;
+      padding: 0.15rem 0.6rem;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      margin-top: 0.1rem;
     }
     #user-input {
       flex: 1;
       padding: 1rem 1.1rem;
-      border: 1px solid rgba(244, 197, 66, 0.35);
+      border: 1px solid rgba(244, 66, 66, 0.35);
       border-radius: 18px;
       font-size: 1rem;
-
-      background-color: #161a21 !important;   /* FORCE dark */
-      color: var(--gold);
-
+      background-color: #161a21 !important;
+      color: var(--red);
       outline: none;
-      box-shadow: inset 0 0 0 1px rgba(244, 197, 66, 0.1);
+      box-shadow: inset 0 0 0 1px rgba(244, 66, 66, 0.1);
     }
     #user-input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(244, 197, 66, 0.15);
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(244, 66, 66, 0.15);
     }
     #user-input::placeholder {
-      color: rgba(244, 197, 66, 0.5);
+      color: rgba(244, 66, 66, 0.5);
     }
     #send-button,
     #mic-button,
@@ -174,7 +359,7 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
     #send-button {
       margin-left: 0;
-      background: linear-gradient(135deg, #f4c542 0%, #e0b52c 100%);
+      background: linear-gradient(135deg, #f34e4e 0%, #e29f9f 100%);
       color: #111;
       border: none;
       padding: 0.85rem 1.2rem;
@@ -182,7 +367,6 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       font-weight: 700;
       cursor: pointer;
     }
-
     #send-button:hover,
     #mic-button:hover,
     #tts-button:hover {
@@ -191,8 +375,8 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     #mic-button,
     #tts-button {
       background-color: #161a21;
-      color: var(--gold);
-      border: 1px solid rgba(244, 197, 66, 0.35);
+      color: var(--red);
+      border: 1px solid rgba(244, 66, 66, 0.35);
       padding: 0.75rem 0.9rem;
       border-radius: 14px;
       cursor: pointer;
@@ -204,23 +388,119 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       color: var(--white);
       border-color: red;
     }
-    #tts-button.off{
+    #tts-button.off {
       opacity: 0.5;
       border-color: gray;
       color: gray;
     }
+    @media (max-width: 700px) {
+    header {
+      padding: 0.75rem 1rem 1rem;
+      min-height: 90px;
+    }
 
+    header h1 {
+      font-size: 1.55rem;
+      margin-top: 0.2rem;
+      padding: 0 70px;
+    }
 
+    .header-subtitle {
+      font-size: 0.85rem;
+      line-height: 1.35;
+      padding: 0 70px;
+      margin-top: 0.35rem;
+    }
+
+    .mtu-LOGO,
+    .kit-image {
+      top: 12px;
+      height: 52px;
+      width: 52px;
+      border-radius: 8px;
+    }
+
+    .mtu-LOGO {
+      left: 10px;
+    }
+
+    .kit-image {
+      right: 10px;
+    }
+
+    .class-badge {
+      margin-top: 0.45rem;
+      font-size: 0.72rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
+      padding: 0.5rem 0.7rem 0.55rem;
+      min-height: 80px;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      padding: 0 55px;
+      margin: 0;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      padding: 0 55px;
+      margin-top: 0.1rem;
+    }
+
+    .mtu-LOGO,
+    .kit-image {
+      top: 6px;
+      width: 42px;
+      height: 42px;
+    }
+  }
   </style>
 </head>
 <body>
-  <!-- Chat Panel -->
-  <div id="chat-panel" class="panel active">
+
+  <!-- ================================
+       CLASS SELECTION SCREEN
+  ================================ -->
+  <div id="class-select-panel" class="active">
     <header>
       <img src="images/eerc.webp" class="mtu-LOGO">
       <img src="images/newKit.jpeg" class="kit-image">
       <h1>K1T B0T</h1>
       <p class="header-subtitle">Your mechanized learning companion</p>
+    </header>
+
+    <div id="class-select-body">
+      <div class="welcome-card">
+        <div class="welcome-icon">🤖</div>
+        <h2 class="welcome-title">Welcome to K1T B0T</h2>
+        <p class="welcome-sub">Select your class to get started. K1T B0T will tailor its responses to your course material.</p>
+
+        <div class="class-list" id="class-list">
+          <div class="class-loading">Loading classes…</div>
+        </div>
+
+        <button id="start-button" disabled>Start Chatting →</button>
+      </div>
+    </div>
+
+    <footer>2026 K1T B0T | Wireless Communications Enterprise | Michigan Technological University</footer>
+  </div>
+
+  <!-- ================================
+       CHAT PANEL
+  ================================ -->
+  <div id="chat-panel" class="panel">
+    <header>
+      <img src="images/eerc.webp" class="mtu-LOGO">
+      <img src="images/newKit.jpeg" class="kit-image">
+      <h1>K1T B0T</h1>
+      <p class="header-subtitle">Your mechanized learning companion</p>
+      <div><span class="class-badge" id="active-class-badge"></span></div>
     </header>
     <div id="chat-container"></div>
     <div id="input-area">
@@ -233,33 +513,106 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   </div>
 
   <script>
-  const userInput = document.getElementById("user-input");
-  const sendButton = document.getElementById("send-button");
-  const chatContainer = document.getElementById("chat-container");
-  const micButton = document.getElementById("mic-button");//voice control buttons
-  const ttsButton = document.getElementById("tts-button");
-  const SID = crypto.randomUUID(); // Unique session ID for this user (can be used for chat history management on server)
-  let ttsEnabled = false; // Text-to-speech toggle state
-  ttsButton.classList.add("off");
-  ttsButton.textContent = "🔇";
-  //For kitbot to start speaking right away, can be removed if not wanted
+  // ================================
+  // STATE
+  // ================================
+  const SID = crypto.randomUUID();
+  let selectedClass = null;   // { id, name, description }
+  let ttsEnabled = false;
   let ttsUnlocked = false;
+
+  // ================================
+  // CLASS SELECTION LOGIC
+  // ================================
+  const classListEl   = document.getElementById("class-list");
+  const startButton   = document.getElementById("start-button");
+  const classBadge    = document.getElementById("active-class-badge");
+
+  async function loadClasses() {
+    try {
+      const resp = await fetch("https://api.k1tb0t.com/classes");
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      // Expected shape: [{ id, name, description }]
+      renderClasses(data);
+    } catch (err) {
+      classListEl.innerHTML = `<div class="class-error">⚠ Could not load classes. Please refresh or contact support.</div>`;
+      console.error("Failed to fetch classes:", err);
+    }
+  }
+
+  function renderClasses(classes) {
+    classListEl.innerHTML = "";
+
+    if (!classes || classes.length === 0) {
+      classListEl.innerHTML = `<div class="class-error">No classes available.</div>`;
+      return;
+    }
+
+    classes.forEach(cls => {
+      const btn = document.createElement("button");
+      btn.classList.add("class-option");
+      btn.dataset.id = cls.class_id;
+      btn.innerHTML = `
+        <span class="class-option-icon">📚</span>
+        <span class="class-option-text">
+          <span class="class-option-name">${escapeHtml(cls.class_name)}</span>
+        </span>
+      `;
+      btn.addEventListener("click", () => selectClass(cls, btn));
+      classListEl.appendChild(btn);
+    });
+  }
+
+  function selectClass(cls, btn) {
+    classListEl.querySelectorAll(".class-option").forEach(el => el.classList.remove("selected"));
+    btn.classList.add("selected");
+    selectedClass = cls;
+    startButton.disabled = false;
+  }
+
+  startButton.addEventListener("click", () => {
+    if (!selectedClass) return;
+    classBadge.textContent = `${selectedClass.class_name}`;
+    document.getElementById("class-select-panel").classList.remove("active");
+    const chatPanel = document.getElementById("chat-panel");
+    chatPanel.classList.add("active");
+    const greeting = `Hello my mechanized assistant! I am in ${selectedClass.class_name}.`;
+    sendToBot(greeting);
+  });
+
+  // ================================
+  // HELPERS
+  // ================================
+  function escapeHtml(str) {
+    const d = document.createElement("div");
+    d.appendChild(document.createTextNode(str));
+    return d.innerHTML;
+  }
 
   function unlockTTS() {
     if (ttsUnlocked) return;
     ttsUnlocked = true;
-    
     if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel(); // Clear any existing utterances
-      const utter = new SpeechSynthesisUtterance(" "); // Dummy utterance to unlock TTS
-      utter.volume = 0; // Silent
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(" ");
+      utter.volume = 0;
       window.speechSynthesis.speak(utter);
     }
   }
 
-  // -------------------------------
-  // Append Chat Messages to UI
-  // -------------------------------
+  // ================================
+  // CHAT
+  // ================================
+  const userInput     = document.getElementById("user-input");
+  const sendButton    = document.getElementById("send-button");
+  const chatContainer = document.getElementById("chat-container");
+  const micButton     = document.getElementById("mic-button");
+  const ttsButton     = document.getElementById("tts-button");
+
+  ttsButton.classList.add("off");
+  ttsButton.textContent = "🔇";
+
   function appendMessage(sender, text) {
     const msg = document.createElement("div");
     msg.classList.add("message", sender);
@@ -267,38 +620,24 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     chatContainer.appendChild(msg);
     chatContainer.scrollTop = chatContainer.scrollHeight;
   }
-  // -------------------------------
-  // User Input Handling
-  // -------------------------------
-  sendButton.onclick = () => {
-    unlockTTS();
-    handleInput();
-  };
+
+  sendButton.onclick = () => { unlockTTS(); handleInput(); };
   userInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      unlockTTS();
-      handleInput();
-    }
+    if (e.key === "Enter") { unlockTTS(); handleInput(); }
   });
 
   async function handleInput() {
     const text = userInput.value.trim();
     if (!text) return;
-
     appendMessage("user", text);
     userInput.value = "";
-
-    // TRIGGER TO SAVE CONVERSATION TO SERVER
-    if (text === "FINISH") {
-      // implement if needed
-    }
-
-    // Otherwise send to LLM backend
+    if (text === "FINISH") { /* implement if needed */ return; }
     await sendToBot(text);
   }
-  // -------------------------------
-  // Text-to-Speech (working :))
-  // -------------------------------
+
+  // ================================
+  // TTS
+  // ================================
   let voiceList = [];
   function refreshVoices() {
     if (!("speechSynthesis" in window)) return;
@@ -311,32 +650,14 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
 
   function pickVoice() {
     if (!voiceList.length) return null;
-
-    const preferredNames = [
-      "Microsoft Aria",
-      "Microsoft Jenny",
-      "Microsoft Guy",
-      "Google US English",
-      "Samantha",
-      "Alex"
-    ];
-
+    const preferredNames = ["Microsoft Aria","Microsoft Jenny","Microsoft Guy","Google US English","Samantha","Alex"];
     for (const name of preferredNames) {
-      const match = voiceList.find(v =>
-        (v.name || "").toLowerCase().includes(name.toLowerCase())
-      );
+      const match = voiceList.find(v => (v.name || "").toLowerCase().includes(name.toLowerCase()));
       if (match) return match;
     }
-
     return (
-      voiceList.find(v =>
-        (v.lang || "").toLowerCase() === "en-us" &&
-        (v.name || "").toLowerCase().includes("microsoft")
-      ) ||
-      voiceList.find(v =>
-        (v.lang || "").toLowerCase() === "en-us" &&
-        (v.name || "").toLowerCase().includes("google")
-      ) ||
+      voiceList.find(v => (v.lang || "").toLowerCase() === "en-us" && (v.name || "").toLowerCase().includes("microsoft")) ||
+      voiceList.find(v => (v.lang || "").toLowerCase() === "en-us" && (v.name || "").toLowerCase().includes("google")) ||
       voiceList.find(v => (v.lang || "").toLowerCase() === "en-us") ||
       voiceList.find(v => (v.lang || "").toLowerCase().startsWith("en")) ||
       voiceList[0]
@@ -346,41 +667,29 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
   function speak(text) {
     if (!ttsEnabled) return;
     if (!("speechSynthesis" in window)) return;
-
     const cleaned = (text || "").trim();
     if (!cleaned) return;
-
     window.speechSynthesis.cancel();
-
     const utter = new SpeechSynthesisUtterance(cleaned);
     utter.lang = "en-US";
     utter.rate = 1.0;
     utter.pitch = 1.0;
-
     const v = pickVoice();
     if (v) utter.voice = v;
-
     window.speechSynthesis.speak(utter);
   }
 
-  // Toggle TTS button
   ttsButton.onclick = () => {
     ttsEnabled = !ttsEnabled;
-
     ttsButton.classList.toggle("off", !ttsEnabled);
-
-    // Change icon
     ttsButton.textContent = ttsEnabled ? "🔊" : "🔇";
-
-    if (!ttsEnabled && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-    }
+    if (!ttsEnabled && "speechSynthesis" in window) window.speechSynthesis.cancel();
   };
-  // -------------------------------
-  // Speech to Text 
-  // -------------------------------
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  // ================================
+  // SPEECH TO TEXT
+  // ================================
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = null;
   let isRecording = false;
 
@@ -408,11 +717,9 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
 
     recognition.onresult = (event) => {
       let transcript = "";
-
-      for(let i = 0; i < event.results.length; i++) {
+      for (let i = 0; i < event.results.length; i++) {
         transcript += event.results[i][0].transcript;
       }
-
       userInput.value = transcript.trim();
       userInput.focus();
     };
@@ -424,21 +731,14 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
 
     recognition.onend = () => {
       stopRecording();
-
       const text = userInput.value.trim();
-      if (text) {
-        handleInput();
-      }
+      if (text) handleInput();
     };
 
     micButton.onclick = () => {
       unlockTTS();
-
-      if (isRecording) {
-        recognition.stop();
-      } else {
-        recognition.start();
-      }
+      if (isRecording) recognition.stop();
+      else recognition.start();
     };
   } else {
     micButton.disabled = true;
@@ -446,9 +746,9 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     micButton.title = "Speech recognition not supported in this browser.";
   }
 
-  // -------------------------------
+  // ================================
   // STREAMING CHAT REQUEST
-  // -------------------------------
+  // ================================
   async function sendToBot(message) {
     const botMsg = document.createElement("div");
     botMsg.classList.add("message", "bot");
@@ -457,14 +757,23 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
     try {
-      // IMPORTANT: /api/... for Nginx proxy
+      const headers = {
+        "Content-Type": "application/json",
+        "X-Session-Id": SID,
+      };
+
+      // Attach selected class ID as a header if available
+      if (selectedClass) {
+        headers["X-Class-Id"] = selectedClass.class_id;
+      }
+
       const response = await fetch("https://api.k1tb0t.com/chat", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "X-Session-Id": SID // Send session ID for server-side chat history management (if implemented)
-         },
-        body: JSON.stringify({ message }),
+        headers,
+        body: JSON.stringify({ 
+          message,
+          class_id: selectedClass ? selectedClass.class_id : null
+        }),
       });
 
       if (!response.ok) {
@@ -475,11 +784,9 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
 
-
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
-
         const chunk = decoder.decode(value, { stream: true });
         botMsg.textContent += chunk;
         chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -492,39 +799,37 @@ Authors: Beaumont Ujlaky, Caleb Schweigert, and Eli Gruhlke
     }
   }
 
-  // -------------------------------
-  // Upload form handling (AJAX)
-  // -------------------------------
-  const uploadForm = document.getElementById('upload-form');
-  const uploadResult = document.getElementById('upload-result');
+  // ================================
+  // UPLOAD FORM HANDLING
+  // ================================
+  const uploadForm = document.getElementById("upload-form");
+  const uploadResult = document.getElementById("upload-result");
   if (uploadForm) {
-    uploadForm.addEventListener('submit', async (e) => {
+    uploadForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      uploadResult.textContent = 'Uploading...';
+      uploadResult.textContent = "Uploading...";
       const fd = new FormData(uploadForm);
       try {
-        const resp = await fetch(uploadForm.action, { method: 'POST', body: fd });
+        const resp = await fetch(uploadForm.action, { method: "POST", body: fd });
         if (!resp.ok) {
           const err = await resp.text();
-          uploadResult.textContent = 'Upload failed: ' + err;
+          uploadResult.textContent = "Upload failed: " + err;
           return;
         }
         const data = await resp.json();
         uploadResult.innerHTML = `Uploaded: ${data.filename}`;
         uploadForm.reset();
-        setTimeout(() => {
-          showPanel('upload');
-        }, 800);
       } catch (err) {
-        uploadResult.textContent = 'Upload error: ' + err.message;
+        uploadResult.textContent = "Upload error: " + err.message;
       }
     });
   }
 
-  window.addEventListener("load", () => {
-    sendToBot("Hello my mechanized assistant!");
-  });
-</script>
+  // ================================
+  // INIT — fetch classes on load
+  // ================================
+  loadClasses();
+  </script>
 
 </body>
 </html>
