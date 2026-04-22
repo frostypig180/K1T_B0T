@@ -25,7 +25,8 @@ from database import create_user, create_conversation, get_conversations_by_clas
 
 USER = os.getenv("ADMIN_USER")
 PASS = os.getenv("ADMIN_PASS")
-BOT_SILLINESS = 0.1
+BOT_SILLINESS = 0.1 # Temperature for bot responses in chat
+BOT_SUMMARY_SILLINESS = 0.2 # Temperature for summary generation
 
 # Connect to local vLLM server
 client = OpenAI(base_url="http://localhost:8000/v1", api_key="EMPTY")
@@ -42,6 +43,8 @@ os.makedirs(class_configs_dir, exist_ok=True)
 # Path to saved chat summaries
 summaries_dir = "/home/k1tbot/Documents/k1tbot/chat_summaries"
 os.makedirs(summaries_dir, exist_ok=True)
+# Path to message target config
+message_target_path = "/home/k1tbot/Documents/k1tbot/message_target.txt"
 # Initialize chat histories and locks for multiple users
 chat_histories: dict[str, list[dict[str, str]]] = {}
 chat_locks: dict[str, asyncio.Lock] = {}
@@ -230,25 +233,83 @@ async def list_resources():
 async def chat(payload: dict, x_session_id: str = Header(None, alias="X-Session-Id")):
     if not x_session_id:
         raise HTTPException(400, "Missing X-Session-Id header")
+    request_type = payload.get("request_type", "answer")
+    is_hint = request_type == "hint"
 
-    user_input = payload["message"]
     class_id = payload.get("class_id")
+    raw_user_input = payload.get("message", "")
     chat_history, chat_lock = get_history_and_lock(x_session_id, class_id)
 
     db_session = get_or_create_db_session(x_session_id, class_id)
     conversation_id = db_session["conversation_id"]
 
-    if "Hello my mechanized assistant!" in user_input.strip():
+    if is_hint:
+        user_input = (
+            "The student asked for a hint. Give a DIFFERENT hint than you have already given. "
+            "Do not repeat yourself. Approach the topic from a new angle. "
+            "Give one short hint only, do not give the answer, and end with one reflective question."
+        )
+        print(f"\x1b[43m[{x_session_id}] User requested a hint.\x1b[0m")
+    elif "Hello my mechanized assistant!" in raw_user_input.strip():
         bot_rules = load_bot_rules()
         chat_history.clear()
         chat_history.append({"role": "system", "content": bot_rules})
-        user_input = load_instructions(class_id)  # Reset to instructions as first user message
+        instructions = load_instructions(class_id)
+        user_input = (
+            "Here is the course material for this week:\n\n"
+            f"{instructions}\n\n"
+            "Start the conversation by asking ONE short reflection question. "
+            "Do NOT give a hint unless the student explicitly asks for one."
+        )
         print(f"\x1b[43m[{x_session_id}] New Session Started.\x1b[0m")
     else:
+        user_input = raw_user_input
         print(f"\x1b[43m[{x_session_id}] User: {user_input}\x1b[0m")
 
-    user_msg = {"role": "user", "content": user_input}
-    temp_messages = list(chat_history) + [user_msg]
+    # ===============================================================================
+   #if "Hello my mechanized assistant!" in user_input.strip():
+    #    bot_rules = load_bot_rules()
+     #   chat_history.clear()
+      #  chat_history.append({"role": "system", "content": bot_rules})
+      #  user_input = load_instructions(class_id)  # Reset to instructions as first user message
+      #  print(f"\x1b[43m[{x_session_id}] New Session Started.\x1b[0m")
+    #else:
+     #   print(f"\x1b[43m[{x_session_id}] User: {user_input}\x1b[0m")
+    # ===============================================================================
+    
+
+    if is_hint:
+        hint_system_msg = {
+            "role": "system",
+            "content": (
+                "Your are in HINT MODE. "
+                "Give exactly one shart, concrete hint. "
+                "Do not restate the earlier question. "
+                "DO not repeat previous wording. "
+                "Do not give a full explanation. "
+                "The hint should point the student toward the idea, not explain it completely. "
+                "After the hint, ask one short follow-up question."
+            )
+        }
+
+        user_msg = {
+            "role": "user",
+            "content": "The student asked for a hint."
+        }
+
+        base_messages = list(chat_history)
+
+        if base_messages and base_messages[0]["role"] == "system":
+            base_messages[0] = {
+                "role": "system",
+                "content": base_messages[0]["content"] + "\n\n" + hint_system_msg["content"]
+            }
+        else:
+            base_messages.insert(0, hint_system_msg)
+        temp_messages = base_messages + [user_msg]
+    else:
+        user_msg = {"role": "user", "content": user_input}
+        temp_messages = list(chat_history) + [user_msg]
 
     async def stream():
         async with chat_lock:
@@ -256,8 +317,12 @@ async def chat(payload: dict, x_session_id: str = Header(None, alias="X-Session-
             q: "queue.Queue[str|object]" = queue.Queue()
             DONE = object()
 
-            save_message(conversation_id, "user", user_input, index)
-            index += 1
+            if is_hint:
+                save_message(conversation_id, "user", "[Hint Requested]", index)
+                index += 1
+            else:
+                save_message(conversation_id, "user", raw_user_input, index)
+                index += 1
 
             def worker():
                 try:
@@ -265,7 +330,9 @@ async def chat(payload: dict, x_session_id: str = Header(None, alias="X-Session-
                         model=model,
                         messages=temp_messages,
                         temperature=BOT_SILLINESS,
-                        max_tokens=150,
+                        max_tokens=512,
+                        presence_penalty=0.6,
+                        frequency_penalty=0.4,
                         stream=True,
                     )
                     for chunk in resp:
@@ -287,7 +354,11 @@ async def chat(payload: dict, x_session_id: str = Header(None, alias="X-Session-
                 collected += item
                 yield item
 
-            chat_history.append(user_msg)
+            if is_hint:
+                chat_history.append({"role": "user", "content": "I need a hint."})
+            else:
+                chat_history.append(user_msg)
+            
             chat_history.append({"role": "assistant", "content": collected})
 
             save_message(conversation_id, "bot", collected, index)
@@ -415,19 +486,19 @@ def generate_class_summary_sync(messages: list[dict[str, str]], class_id: str) -
     general_response = client.chat.completions.create(
         model=model,
         messages=general,
-        temperature=0.3,
+        temperature=BOT_SILLINESS,
         max_tokens=512,
     )
     strengths_response = client.chat.completions.create(
         model=model,
         messages=strengths,
-        temperature=0.3,
+        temperature=BOT_SUMMARY_SILLINESS,
         max_tokens=512,
     )
     needs_help_response = client.chat.completions.create(
         model=model,
         messages=needs_help,
-        temperature=0.3,
+        temperature=BOT_SUMMARY_SILLINESS,
         max_tokens=512,
     )
     return {
@@ -638,3 +709,24 @@ async def get_session(session_id: str):
         "messages": messages,
         "message_count": len(messages),
     }
+
+# ===============================================================================================
+# Message Target Configuration
+# ===============================================================================================
+
+@app.get("/message-target")
+async def get_message_target():
+    try:
+        value = Path(message_target_path).read_text(encoding="utf-8").strip()
+        return {"target": int(value)}
+    except Exception:
+        return {"target": 10}
+    
+@app.post("/message-target")
+async def set_message_target(payload: dict):
+    target = payload.get("target")
+    if not target or not isinstance(target, int) or target < 1:
+        raise HTTPException(400, "Target must be a posistive integer")
+    with open(message_target_path, "w", encoding="utf-8") as f:
+        f.write(str(target))
+    return {"target": target}
